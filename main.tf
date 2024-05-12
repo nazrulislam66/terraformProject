@@ -88,7 +88,7 @@ module "ec2" {
   tags = local.tags
 }
 
-module "ec2" {
+module "ec21" {
   source = "./modules/EC2"
 
   name = "testmachine1"
