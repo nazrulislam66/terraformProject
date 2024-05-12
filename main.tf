@@ -39,15 +39,22 @@ module "vpc1" {
   }]
 }
 
-data "aws_ami" "amazon-linux-2" {
+data "aws_ami" "ubuntu" {
   most_recent = true
-  owners      = ["amazon"]
 
   filter {
     name   = "name"
-    values = ["amzn-ami-hvm-*-x86_64-gp2"]
-  } 
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["099720109477"]
 }
+
 
 module "security_group" {
   source = "./modules/Security_Group"
@@ -78,7 +85,7 @@ module "ec2" {
 
   name = local.name
 
-  ami                         = data.aws_ami.amazon-linux-2.id
+  ami                         = data.aws_ami.ubuntu.id
   instance_type               = "c5.large"
   availability_zone           = local.availability_zone
   subnet_id                   = element(module.vpc1.private_subnets, 0)
@@ -93,7 +100,7 @@ module "ec21" {
 
   name = "testmachine1"
 
-  ami                         = data.aws_ami.amazon-linux-2.id
+  ami                         = data.aws_ami.ubuntu.id
   instance_type               = "c5.large"
   availability_zone           = local.availability_zone
   subnet_id                   = element(module.vpc1.private_subnets, 0)
