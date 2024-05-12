@@ -78,7 +78,7 @@ module "ec2" {
 
   name = local.name
 
-  ami                         = data.aws_ami.amazon_linux.id
+  ami                         = data.aws_ami.amazon-linux-2.id
   instance_type               = "c5.large"
   availability_zone           = local.availability_zone
   subnet_id                   = element(module.vpc1.private_subnets, 0)
